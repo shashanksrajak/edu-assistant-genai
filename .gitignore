@@ -5,6 +5,8 @@ node_modules/
 out/
 dist/
 build/
+.env.local
+.env.development.local
 
 # Python
 .venv/
