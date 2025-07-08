@@ -114,7 +114,7 @@ export default function Recommendations({
                     {rec.description}
                   </p>
                 </div>
-                {rec.url && (
+                {rec.url && rec.url !== "NULL" && (
                   <a
                     href={rec.url}
                     target="_blank"
