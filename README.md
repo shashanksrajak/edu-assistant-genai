@@ -2,6 +2,14 @@
 
 An AI-powered educational platform that provides personalized learning experiences through various interactive features including summaries, quizzes, mind maps, recommendations, and audio overviews.
 
+## Screenshots
+
+![Educational AI Web App Screenshot 1](docs/images/screen-1.jpg)
+
+![Educational AI Web App Screenshot 2](docs/images/screen-2.jpg)
+
+![Educational AI Web App Screenshot 3](docs/images/screen-3.jpg)
+
 ## Project Structure
 
 ```
