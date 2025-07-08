@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Download } from "lucide-react";
+import { FileText } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -26,10 +25,10 @@ export default function SummaryNotes({
   );
 
   useEffect(() => {
-    console.log("use effect for summary notes");
     // get realtime update for quiz if it has been generated
+    const channelName = "channel:summary-notes";
     const channel = client
-      .channel(`learning-space-changes`)
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -39,8 +38,8 @@ export default function SummaryNotes({
           filter: `id=eq.${learningSpaceId}`,
         },
         (payload) => {
-          console.log("realtime update for summary notes:");
-          console.log(payload);
+          // console.log("realtime update for summary notes:");
+          // console.log(payload);
           //@ts-expect-error this exists
           if (payload.new?.summary_notes) {
             setIsGenerating(false);
@@ -51,11 +50,11 @@ export default function SummaryNotes({
       )
       .subscribe((status, err) => {
         if (status === "SUBSCRIBED") {
-          console.log("Successfully subscribed to the channel!");
+          console.log(`Successfully subscribed to the channel! ${channelName}`);
           // You can now use the channel for Realtime operations
         } else {
           console.log(err);
-          console.error("Subscription failed:", err);
+          console.error(`Subscription failed: ${channelName}`, err);
         }
       });
 
@@ -74,15 +73,6 @@ export default function SummaryNotes({
             </div>
             Summary Notes
           </div>
-          {summaryNotesContent && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-blue-600 hover:text-blue-700 hover:bg-blue-100"
-            >
-              <Download className="w-4 h-4" />
-            </Button>
-          )}
         </CardTitle>
       </CardHeader>
       <CardContent>

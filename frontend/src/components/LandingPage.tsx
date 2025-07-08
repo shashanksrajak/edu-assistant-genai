@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SignUpButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { BadgeQuestionMark, Map, Music, NotebookText } from "lucide-react";
 import Link from "next/link";
 
 export default function LandingPage() {
@@ -97,20 +98,8 @@ export default function LandingPage() {
             {/* Feature 1: Summary Notes */}
             <Card className="text-center border-0 shadow-xl hover:scale-105 hover:shadow-2xl transition-transform duration-300 bg-gradient-to-br from-blue-50 to-blue-100">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
-                    />
-                  </svg>
+                <div className="text-white w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <NotebookText />
                 </div>
                 <CardTitle className="text-xl font-bold">
                   Summary Notes
@@ -125,20 +114,8 @@ export default function LandingPage() {
             {/* Feature 2: Audio Overview */}
             <Card className="text-center border-0 shadow-xl hover:scale-105 hover:shadow-2xl transition-transform duration-300 bg-gradient-to-br from-orange-50 to-amber-100">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 19V6l12-2v13"
-                    />
-                  </svg>
+                <div className="text-white w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <Music />
                 </div>
                 <CardTitle className="text-xl font-bold">
                   Audio Overview
@@ -153,20 +130,8 @@ export default function LandingPage() {
             {/* Feature 3: Mindmaps */}
             <Card className="text-center border-0 shadow-xl hover:scale-105 hover:shadow-2xl transition-transform duration-300 bg-gradient-to-br from-purple-50 to-pink-100">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M8 16l2.879-2.879a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                <div className="text-white w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <Map />
                 </div>
                 <CardTitle className="text-xl font-bold">Mindmaps</CardTitle>
                 <CardDescription className="text-gray-700">
@@ -179,20 +144,8 @@ export default function LandingPage() {
             {/* Feature 4: Interactive Quizzes */}
             <Card className="text-center border-0 shadow-xl hover:scale-105 hover:shadow-2xl transition-transform duration-300 bg-gradient-to-br from-green-50 to-emerald-100">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                <div className="text-white w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <BadgeQuestionMark />
                 </div>
                 <CardTitle className="text-xl font-bold">
                   Interactive Quizzes
@@ -225,7 +178,7 @@ export default function LandingPage() {
             </SignUpButton>
           </SignedOut>
           <SignedIn>
-            <Link href="/dashboard">
+            <Link href="/learn">
               <Button size="lg" className="px-8 py-6 text-lg font-semibold">
                 Continue Learning
               </Button>
@@ -258,6 +211,19 @@ export default function LandingPage() {
           </p>
           <div className="text-sm text-gray-500">
             © 2025 EduAI. All rights reserved.
+          </div>
+
+          <div className="mt-6 text-gray-400">
+            Created by{" "}
+            <span className="text-blue-400 hover:underline">
+              <a
+                href="https://shashankrajak.in"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Shashank Rajak
+              </a>
+            </span>
           </div>
         </div>
       </footer>

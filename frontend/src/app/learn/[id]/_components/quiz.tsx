@@ -22,8 +22,9 @@ export default function Quiz({
 
   useEffect(() => {
     // get realtime update for quiz if it has been generated
-    client
-      .channel(`channel:quiz-${learningSpaceId}`)
+    const channelName = `channel:quiz`;
+    const channel = client
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -33,14 +34,26 @@ export default function Quiz({
           filter: `id=eq.${learningSpaceId}`,
         },
         (payload) => {
-          console.log(payload);
+          // console.log(payload);
           //@ts-expect-error this exists
           if (payload.new?.quiz) {
             setIsGenerating(false);
           }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === "SUBSCRIBED") {
+          console.log(`Successfully subscribed to the channel ${channelName}!`);
+          // You can now use the channel for Realtime operations
+        } else {
+          console.log(err);
+          console.error(`Subscription failed: ${channelName}`, err);
+        }
+      });
+
+    return () => {
+      channel.unsubscribe();
+    };
   }, [learningSpaceId, client]);
 
   const handleTakeQuiz = () => {

@@ -44,8 +44,8 @@ def read_root():
 
 def main():
     print("Hello from leave-application-agent!")
-
-    uvicorn.run(app, host="0.0.0.0", port=7007)
+    port = os.getenv("PORT")
+    uvicorn.run(app, host="0.0.0.0", port=int(port))
 
 
 if __name__ == "__main__":

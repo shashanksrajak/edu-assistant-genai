@@ -59,6 +59,11 @@ export default function CreateSpaceButton({
   const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type === "application/pdf") {
+      if (file.size > 1024 * 1024) {
+        alert("PDF file size must be less than 1MB");
+        return;
+      }
+
       setPdfFile(file);
     }
   };
