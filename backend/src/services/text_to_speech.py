@@ -14,7 +14,7 @@ def generate_tts(text_input: str, language_code: str):
     Generates audio overview.
 
     Args:
-    text_input : SSML script
+    text_input : script
     language_code : en-IN or hi-IN
     """
 
@@ -22,7 +22,7 @@ def generate_tts(text_input: str, language_code: str):
         response = polly.synthesize_speech(
             Engine='neural',
             Text=text_input,
-            TextType='ssml',
+            # TextType='ssml',
             LanguageCode=language_code,  # 'hi-IN'
             OutputFormat='mp3',
             VoiceId='Kajal'

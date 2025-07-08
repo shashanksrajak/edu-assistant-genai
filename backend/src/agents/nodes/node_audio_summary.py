@@ -28,72 +28,28 @@ def run_node_audio_overview(state: AgentState):
         ("system", """
          You are an expert academic female tutor. Your goal is to generate engaging, informative, and personalized educational summaries for students.
 
-        **Strict Guidelines:**
+            Student Profile:
+            - Class Level: {grade_level}
+            - Target Language: {language} (Provide content in this language.)
+            - Preferred Pronouns: {gender} 
 
-        1.  **Output Format:** The entire response MUST be valid SSML (Speech Synthesis Markup Language).
-            * Start with `<speak>`.
-            * End with `</speak>`.
-            * Use only the SSML tags listed below. Other tags are NOT allowed.
+            Podcast Content Requirements:
+            1.  Comprehensive Summary: Generate a detailed and well-structured summary of the user-provided topic. This summary should serve as the core script for a 7-10 minute audio podcast episode within a 3000 character limit.
+            2.  Academic Appropriateness: Tailor the depth, complexity, and vocabulary of the content precisely to the specified {grade_level}. Assume the student has foundational knowledge typical for their level, but introduce new concepts clearly.
+            3.  Engaging Delivery Style:
+                - Write in a conversational, accessible, and enthusiastic tone.
+                - Incorporate brief, relatable examples or analogies where helpful.
+                - Include a brief, friendly introduction and conclusion suitable for a podcast.
+            4.  Structure: Your summary should implicitly or explicitly follow a logical podcast flow:
+                - Introduction: Hook the listener, introduce the topic.
+                - Main Content: Break down the topic into digestible segments.
+                - Key Takeaways/Recap: Briefly summarize the main points.
+                - Call to Action/Further Exploration:** Encourage continued learning.
+            5. Strictly use the 3000 characters limit, if the script goes beyond this, self edit it to adhere to the character limit.
+                """),
 
-        2.  **Content Length & Duration:**
-            * Generate content for a concise audio overview, aiming for a duration of approximately 7-10 minutes.
-            * **Crucially, the raw character count of the final SSML string (including all tags, spaces, and content) MUST NOT exceed 3000 characters.** If your content draft exceeds this, you MUST self-edit and shorten it to fit, prioritizing key information.
-
-        **Student Profile:**
-        - Class Level: {grade_level}
-        - Target Language: {language} (Provide ALL content, including SSML elements like text and prompts, in this language.)
-        - Preferred Pronouns: {gender} (e.g., she/her, he/him, they/them – use to personalize direct address, if appropriate for the content style.)
-
-        **Content Requirements:**
-        * **Topic Summary:** Generate a detailed and well-structured summary of the user-provided topic.
-        * **Academic Appropriateness:** Tailor the depth, complexity, and vocabulary precisely to the specified {grade_level}. Assume foundational knowledge typical for their level, but introduce new concepts clearly.
-        * **Engaging Delivery Style:**
-            * Write in a conversational, accessible, and enthusiastic tone.
-            * Incorporate brief, relatable examples or analogies where helpful.
-            * Suggest pauses, changes in speaking rate, or emphasis using SSML tags to enhance listening experience.
-        * **Structure:** Follow a logical flow:
-            * **Introduction:** Hook the listener, introduce the topic, and greet them.
-            * **Main Content:** Break down the topic into digestible segments, explaining core concepts.
-            * **Key Takeaways/Recap:** Briefly summarize the main points.
-            * **Call to Action/Further Exploration:** Encourage continued learning.
-
-        **Allowed SSML Tags for Amazon Polly Neural Voices (Strictly Enforced):**
-
-        * `<break>`: For adding pauses. Use `time` attribute (e.g., `<break time="500ms"/>` or `<break time="0.5s"/>`).
-        * `<lang>`: To specify another language for specific words or phrases.
-        * `<mark>`: To place a custom tag in your text.
-        * `<p>`: To add a pause between paragraphs.
-        * `<phoneme>`: For using phonetic pronunciation.
-        * `<prosody>`: For controlling volume, speaking rate, and pitch. **Do NOT use `amazon:max-duration` attribute.** Use attributes like `rate`, `pitch`, `volume`.
-        * `<s>`: To add a pause between sentences.
-        * `<speak>`: The root element (must be the outermost tag).
-        * `<sub>`: To pronounce acronyms and abbreviations (e.g., `<sub alias="Application Programming Interface">API</sub>`).
-        * `<w>`: To improve pronunciation by specifying parts of speech (e.g., `<w role="verb">read</w>`).
-        * `<amazon:effect name="drc">`: For adding dynamic range compression.
-
-        **Do NOT use any other SSML tags, including (but not limited to):**
-        * `<emphasis>`
-        * `<prosody amazon:max-duration>`
-        * `<amazon:auto-breaths>`
-        * `<amazon:effect phonation="soft">`
-        * `<amazon:effect vocal-tract-length>`
-        * `<amazon:effect name="whispered">`
-        * `<amazon:domain name="news">`
-
-        **Example SSML structure and character count consideration:**
-        <speak version="1.0" xml:lang="en-US">
-          <p>Hello! Welcome to our podcast.</p>
-          <s>Today, we explore [Topic].</s>
-          <p>This is a brief explanation.</p>
-          <s>We'll keep it concise.</s>
-          <break time="200ms"/>
-          <p><prosody rate="fast">Key takeaway:</prosody> It's very simple.</p>
-          <s>Thanks for listening!</s>
-        </speak>
-        (This example is ~250 chars. Your full content should be around 3000 chars.)
-        """
-         ),
-        ("user", "Generate an audio summary about: {topic_summary}")
+        ("user",
+         "Create a audio summary for the topic summary: {topic_summary}.")
     ])
 
     # init a new model with structured output
@@ -121,12 +77,12 @@ def run_node_audio_overview(state: AgentState):
         clean_text = re.sub(r"[\n\r\\]", "", content)
         return clean_text
 
-    SSML = clean_podcast_content(json_response['SSML'])
+    script = clean_podcast_content(json_response['script'])
 
     # # # update in supabase database
 
     supabase_service.update_learning_space(
-        state['learning_space_id'], {"audio_script": SSML}
+        state['learning_space_id'], {"audio_script": script}
     )
 
-    return {"podcast_script": SSML}
+    return {"podcast_script": script}

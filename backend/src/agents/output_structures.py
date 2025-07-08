@@ -56,10 +56,11 @@ class RecommendationList(BaseModel):
 
 class PodcastContent(BaseModel):
     topic: str = Field(description="topic of the podcast")
-    SSML: str = Field(description="SSML content for the podcast")
-
+    # SSML: str = Field(description="SSML content for the podcast")
+    script: str = Field(description="Script for the audio summary")
 
 # ---- Mindmap Output Structure -------
+
 
 class Node(BaseModel):
     id: str

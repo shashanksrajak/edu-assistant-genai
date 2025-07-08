@@ -16,6 +16,7 @@ def run_node_summary_notes(state: AgentState):
     """LLM call to generate summary notes for student"""
 
     logger.info("node_summary_notes running....")
+    logger.info(state)
 
     # generate the chat prompt
 
@@ -44,7 +45,7 @@ def run_node_summary_notes(state: AgentState):
             2. Use bullet points and simple language appropriate for {grade_level}
             3. Include practical examples and analogies
             4. Make it engaging and easy to understand
-            5. If language is not English, provide content in {language}
+            5. Provide content in {language} only
             
             """),
         ("user", user_content)
@@ -59,7 +60,7 @@ def run_node_summary_notes(state: AgentState):
     response = chain.invoke(
         {
             "grade_level": state['student_profile'].get("grade_level", "general"),
-            "language": state['student_profile'].get("language", "English"),
+            "language": state['student_profile'].get("language", "english"),
             "gender": state['student_profile'].get("gender", ""),
         }
     )
